@@ -52,15 +52,13 @@ public class PrintCalendar {
 
 	private static int getFirstMonthWeekDay(int month, int year) {
 		LocalDate ld = LocalDate.of(year, month, 1);
-		int firstMonthWeekDay = ld.get(ChronoField.DAY_OF_WEEK);
-		int actualWeekDay = 0;
 		
 		for (int index = 0; index < weekDays.length; index++) {
-			if (weekDays[index].getValue() == firstMonthWeekDay) {
-				actualWeekDay = index + 1;
+			if (weekDays[index] == ld.getDayOfWeek()) {
+				return index + 1;
 			}	
 		}
-		return actualWeekDay;	
+		return -1;	
 	}
 
 	
