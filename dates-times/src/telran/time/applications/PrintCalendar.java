@@ -3,7 +3,6 @@ package telran.time.applications;
 import java.time.*;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
-import java.util.Arrays;
 import java.util.Locale;
 
 public class PrintCalendar {
@@ -49,7 +48,6 @@ public class PrintCalendar {
 
 	private static int getFirstColumnOffset(int currentWeekDay) {
 		return COLUMN_WIDTH * (currentWeekDay - 1);
-//		return COLUMN_WIDTH * currentWeekDay;
 	}
 
 	private static int getFirstMonthWeekDay(int month, int year) {
@@ -60,7 +58,6 @@ public class PrintCalendar {
 		for (int index = 0; index < weekDays.length; index++) {
 			if (weekDays[index].getValue() == firstMonthWeekDay) {
 				actualWeekDay = index + 1;
-//				actualWeekDay = index;
 			}	
 		}
 		return actualWeekDay;	
