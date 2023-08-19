@@ -83,7 +83,6 @@ public class PrintCalendar {
 	private static void printTitle(int month, int year, DayOfWeek firstDay) {
 		Month monthEn = Month.of(month);
 		System.out.printf("%s%s %d\n", " ".repeat(TITLE_OFFSET), monthEn.getDisplayName(TextStyle.FULL, LOCALE), year);
-		
 	}
 
 	private static RecordArguments getRecordArguments(String[] args) throws Exception {	
@@ -102,7 +101,6 @@ public class PrintCalendar {
 			} catch (IllegalArgumentException e) {
 				throw new Exception("Day of week is not valid");
 			}
-			
 			setFirstWeekDay(dayRes);
 		}
 		return dayRes;
@@ -111,6 +109,9 @@ public class PrintCalendar {
 	
 	private static void setFirstWeekDay(DayOfWeek firstDay) {
 		int dayIndex = firstDay.getValue() - 1;
+//		var temp = Arrays.copyOf(weekDays, dayIndex);
+//		System.arraycopy(weekDays, dayIndex, weekDays, 0, weekDays.length - dayIndex);
+//		System.arraycopy(temp, 0, weekDays, weekDays.length - dayIndex, temp.length);
 	
 		reverseArr(weekDays, 0, dayIndex - 1);
 		reverseArr(weekDays, dayIndex, weekDays.length - 1);
