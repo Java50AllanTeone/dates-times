@@ -1,6 +1,5 @@
-package telran.time;
+ package telran.time;
 
-import java.time.DayOfWeek;
 import java.time.temporal.*;
 
 public class NextFriday13 implements TemporalAdjuster {
