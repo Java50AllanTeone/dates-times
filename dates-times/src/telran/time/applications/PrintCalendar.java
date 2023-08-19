@@ -3,7 +3,6 @@ package telran.time.applications;
 import java.time.*;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
-import java.util.Arrays;
 import java.util.Locale;
 
 public class PrintCalendar {
@@ -23,14 +22,12 @@ public class PrintCalendar {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	private static void printCalendar(RecordArguments recordArguments) {
 		printTitle(recordArguments.month(), recordArguments.year(), recordArguments.firstDay());
 		printWeekDays();
-		printDays(recordArguments.month(), recordArguments.year());
-		
+		printDays(recordArguments.month(), recordArguments.year());	
 	}
 
 	private static void printDays(int month, int year) {
@@ -47,7 +44,6 @@ public class PrintCalendar {
 			}
 			currentWeekDay++;
 		}
-		
 	}
 
 	private static int getFirstColumnOffset(int currentWeekDay) {
@@ -57,15 +53,16 @@ public class PrintCalendar {
 	private static int getFirstMonthWeekDay(int month, int year) {
 		LocalDate ld = LocalDate.of(year, month, 1);
 		int firstMonthWeekDay = ld.get(ChronoField.DAY_OF_WEEK);
-		int res = 0;
+		int actualWeekDay = 0;
 		
 		for (int index = 0; index < weekDays.length; index++) {
 			if (weekDays[index].getValue() == firstMonthWeekDay) 
-				res = index;
+				actualWeekDay = index;
 		}
-		return res;	
+		return actualWeekDay;	
 	}
 
+	
 	private static int getMonthDays(int month, int year) {
 		YearMonth ym = YearMonth.of(year, month);
 		return ym.lengthOfMonth();
@@ -97,7 +94,7 @@ public class PrintCalendar {
 		
 		if (args.length > 2) {
 			try {
-				dayRes = DayOfWeek.valueOf(args[2]);
+				dayRes = DayOfWeek.valueOf(args[2].toUpperCase());
 			} catch (IllegalArgumentException e) {
 				throw new Exception("Day of week is not valid");
 			}
@@ -110,13 +107,23 @@ public class PrintCalendar {
 	
 	private static void setFirstWeekDay(DayOfWeek firstDay) {
 		int dayIndex = firstDay.getValue() - 1;
-		
-		var temp = Arrays.copyOf(weekDays, dayIndex);
-		System.arraycopy(weekDays, dayIndex, weekDays, 0, weekDays.length - dayIndex);
-		System.arraycopy(temp, 0, weekDays, weekDays.length - dayIndex, temp.length);		
+	
+		reverseArr(weekDays, 0, dayIndex - 1);
+		reverseArr(weekDays, dayIndex, weekDays.length - 1);
+		reverseArr(weekDays, 0, weekDays.length - 1);
 	}
 
 	
+	private static void reverseArr(DayOfWeek[] arr, int start, int end) {
+		while (start < end) {
+	        var temp = arr[start];
+	        arr[start] = arr[end];
+	        arr[end] = temp;
+	        start++;
+	        end--;
+	    }	
+	}
+
 	private static int getYearArg(String[] args) throws Exception {
 		int yearRes = LocalDate.now().getYear();
 		
