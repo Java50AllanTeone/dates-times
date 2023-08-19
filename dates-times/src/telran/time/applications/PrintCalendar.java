@@ -34,7 +34,6 @@ public class PrintCalendar {
 	private static void printDays(int month, int year) {
 		int nDays = getMonthDays(month, year);
 		int currentWeekDay = getFirstMonthWeekDay(month, year);
-//		System.out.println(currentWeekDay);
 
 		System.out.printf("%s", " ".repeat(getFirstColumnOffset(currentWeekDay)));
 		for (int day = 1; day <= nDays; day++) {
