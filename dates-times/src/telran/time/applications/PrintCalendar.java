@@ -14,20 +14,22 @@ public class PrintCalendar {
 	private static Locale LOCALE = Locale.getDefault();
 
 	public static void main(String[] args) {
-		try {
-			RecordArguments recordArguments = getRecordArguments(args);
-			printCalendar(recordArguments);
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+//		try {
+//			RecordArguments recordArguments = getRecordArguments(args);
+//			printCalendar(recordArguments);
+//		} catch (RuntimeException e) {
+//			e.printStackTrace();
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+		
+		System.out.println(DayOfWeek.MONDAY.getValue());
 		
 	
 	}
 
 	private static void printCalendar(RecordArguments recordArguments) {
-		printTitle(recordArguments.month(), recordArguments.year());
+		printTitle(recordArguments.month(), recordArguments.year(), recordArguments.firstDay());
 		printWeekDays();
 		printDays(recordArguments.month(), recordArguments.year());
 		
@@ -72,7 +74,7 @@ public class PrintCalendar {
 		System.out.println();
 	}
 
-	private static void printTitle(int month, int year) {
+	private static void printTitle(int month, int year, DayOfWeek firstDay) {
 		Month monthEn = Month.of(month);
 		System.out.printf("%s%s %d\n", " ".repeat(TITLE_OFFSET), monthEn.getDisplayName(TextStyle.FULL, LOCALE), year);
 		
@@ -85,9 +87,24 @@ public class PrintCalendar {
 		return new RecordArguments(month, year, dayOfWeek);
 	}
 
-	private static DayOfWeek getFirstDayOfWeek(String[] args) {
-		// TODO Auto-generated method stub
-		return null;
+	private static DayOfWeek getFirstDayOfWeek(String[] args) throws Exception {
+		DayOfWeek dayRes = DayOfWeek.MONDAY;
+		
+		if (args.length > 2) {
+			try {
+				dayRes = DayOfWeek.valueOf(args[2]);
+			} catch (IllegalArgumentException e) {
+				throw new Exception("Day of week is not valid");
+			}
+			
+			setFirstWeekDay(dayRes);
+		}
+		return dayRes;
+	}
+
+	private static void setFirstWeekDay(DayOfWeek firstDay) {
+		int dayIndex = firstDay.getValue() - 1;
+		
 	}
 
 	private static int getYearArg(String[] args) throws Exception {
