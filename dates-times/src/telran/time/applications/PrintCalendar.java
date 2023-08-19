@@ -3,6 +3,7 @@ package telran.time.applications;
 import java.time.*;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class PrintCalendar {
@@ -14,18 +15,15 @@ public class PrintCalendar {
 	private static Locale LOCALE = Locale.getDefault();
 
 	public static void main(String[] args) {
-//		try {
-//			RecordArguments recordArguments = getRecordArguments(args);
-//			printCalendar(recordArguments);
-//		} catch (RuntimeException e) {
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
+		try {
+			RecordArguments recordArguments = getRecordArguments(args);
+			printCalendar(recordArguments);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
-		System.out.println(DayOfWeek.MONDAY.getValue());
-		
-	
 	}
 
 	private static void printCalendar(RecordArguments recordArguments) {
@@ -38,7 +36,7 @@ public class PrintCalendar {
 	private static void printDays(int month, int year) {
 		int nDays = getMonthDays(month, year);
 		int currentWeekDay = getFirstMonthWeekDay(month, year);
-		
+
 		System.out.printf("%s", " ".repeat(getFirstColumnOffset(currentWeekDay)));
 		for (int day = 1; day <= nDays; day++) {
 			System.out.printf("%4d", day);
@@ -58,7 +56,14 @@ public class PrintCalendar {
 
 	private static int getFirstMonthWeekDay(int month, int year) {
 		LocalDate ld = LocalDate.of(year, month, 1);
-		return ld.get(ChronoField.DAY_OF_WEEK);
+		int firstMonthWeekDay = ld.get(ChronoField.DAY_OF_WEEK);
+		int res = 0;
+		
+		for (int index = 0; index < weekDays.length; index++) {
+			if (weekDays[index].getValue() == firstMonthWeekDay) 
+				res = index;
+		}
+		return res;	
 	}
 
 	private static int getMonthDays(int month, int year) {
@@ -102,11 +107,16 @@ public class PrintCalendar {
 		return dayRes;
 	}
 
+	
 	private static void setFirstWeekDay(DayOfWeek firstDay) {
 		int dayIndex = firstDay.getValue() - 1;
 		
+		var temp = Arrays.copyOf(weekDays, dayIndex);
+		System.arraycopy(weekDays, dayIndex, weekDays, 0, weekDays.length - dayIndex);
+		System.arraycopy(temp, 0, weekDays, weekDays.length - dayIndex, temp.length);		
 	}
 
+	
 	private static int getYearArg(String[] args) throws Exception {
 		int yearRes = LocalDate.now().getYear();
 		
