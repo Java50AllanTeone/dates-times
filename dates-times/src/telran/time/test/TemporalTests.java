@@ -49,5 +49,28 @@ class TemporalTests {
         assertEquals(expected1, ld.with(adjuster));
         assertEquals(expected2, expected1.with(adjuster));
     }
+    
+    
+    @Test
+    @Disabled
+    void instantTest() {
+    	var zdt = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Indian/Comoro"));
+    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/YYYY H:m z Z");
+    	System.out.println(zdt.format(dtf));
+    }
+    
+    @Test
+    void zoneDateTimeTest() {
+    	zoneDateTimeTest("London");
+    }
+
+	private void zoneDateTimeTest(String cityCountry) {
+		ZoneId.getAvailableZoneIds().stream().filter(str -> str.contains(cityCountry)).forEach(System.out::println);
+		
+		
+	}
+    
+    
+    
 
 }
